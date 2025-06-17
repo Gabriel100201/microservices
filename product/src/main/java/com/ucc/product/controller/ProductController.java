@@ -54,4 +54,16 @@ public class ProductController {
     public List<Product> getProductsByStatusTrue() {
         return productService.getProductsByStatusTrue();
     }
+
+    @GetMapping("/{id}/stock")
+    @ResponseStatus(HttpStatus.OK)
+    public Integer getProductStock(@PathVariable Long id) {
+        return productService.getProductStock(id);
+    }
+
+    @GetMapping("/{id}/price")
+    @ResponseStatus(HttpStatus.OK)
+    public Double getProductPrice(@PathVariable Long id) {
+        return productService.getProductByID(id).getPrice();
+    }
 }

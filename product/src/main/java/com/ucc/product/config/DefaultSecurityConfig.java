@@ -23,8 +23,8 @@ public class DefaultSecurityConfig {
         http
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(aurhz -> aurhz
-                .requestMatchers(HttpMethod.POST, "/api/products").authenticated()
-                .anyRequest().permitAll())
+                    .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
+                    .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults());
 
         return http.build();

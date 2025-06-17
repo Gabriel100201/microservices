@@ -18,6 +18,8 @@ public class ProductsMapper {
         productEntity.setName(productDTO.getName());
         productEntity.setPrice(productDTO.getPrice());
         productEntity.setStatus(Boolean.TRUE);
+        productEntity.setStock(productDTO.getStock());
+        productEntity.setDescription(productDTO.getDescription());
 
         Category categoryEntity = categoryRepository.findOneById(productDTO.getCategoryDTO().getId());
         productEntity.setCategory(categoryEntity);

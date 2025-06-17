@@ -92,7 +92,13 @@ public class OrderService {
             productId
         );
 
-        if (availableStock == null || availableStock < quantity) {
+        if (availableStock == null) {
+            throw new InsufficientStockException(
+                String.format("No se pudo verificar el stock para el producto %d", productId)
+            );
+        }
+
+        if (availableStock < quantity) {
             throw new InsufficientStockException(
                 String.format("Stock insuficiente para el producto %d. Disponible: %d, Solicitado: %d",
                     productId, availableStock, quantity)
