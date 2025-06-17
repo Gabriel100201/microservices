@@ -14,14 +14,14 @@ public class SwaggerConfig {
     public OpenAPI customOpenAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Orders API")
+                        .title("API de Órdenes")
+                        .description("API REST para la gestión de órdenes y pedidos")
                         .version("1.0")
-                        .description("API para gestión de órdenes")
                         .contact(new Contact()
-                                .name("UCC")
-                                .email("contact@ucc.edu.ar"))
+                                .name("Equipo de Desarrollo")
+                                .email("desarrollo@ucc.edu.co"))
                         .license(new License()
                                 .name("Apache 2.0")
-                                .url("http://springdoc.org")));
+                                .url("http://www.apache.org/licenses/LICENSE-2.0.html")));
     }
 } 

@@ -4,6 +4,7 @@ import com.ucc.orders.model.dto.OrderDTO;
 import com.ucc.orders.model.dto.OrderResponseDTO;
 import com.ucc.orders.service.OrderService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -16,41 +17,42 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/orders")
 @RequiredArgsConstructor
-@Tag(name = "Orders", description = "API para gestión de órdenes")
+@Tag(name = "Órdenes", description = "API para la gestión de órdenes y pedidos")
 public class OrderController {
     private final OrderService orderService;
 
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Obtener todas las órdenes")
+    @Operation(summary = "Obtener todas las órdenes", description = "Retorna una lista de todas las órdenes disponibles")
     @ApiResponses(value = {
-        @ApiResponse(responseCode = "200", description = "Órdenes encontradas"),
+        @ApiResponse(responseCode = "200", description = "Operación exitosa"),
         @ApiResponse(responseCode = "404", description = "No se encontraron órdenes")
     })
+    @GetMapping
+    @ResponseStatus(HttpStatus.OK)
     public List<OrderResponseDTO> getAllOrders() {
         return orderService.getAllOrders();
     }
 
-    @GetMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
-    @Operation(summary = "Obtener una orden por ID")
+    @Operation(summary = "Obtener orden por ID", description = "Retorna una orden específica basada en su ID")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "200", description = "Orden encontrada"),
         @ApiResponse(responseCode = "404", description = "Orden no encontrada")
     })
-    public OrderResponseDTO getOrderById(@PathVariable Long id) {
+    @GetMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public OrderResponseDTO getOrderById(@Parameter(description = "ID de la orden") @PathVariable Long id) {
         return orderService.getOrderById(id);
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    @Operation(summary = "Crear una nueva orden")
+    @Operation(summary = "Crear nueva orden", description = "Crea una nueva orden en el sistema. Verifica el stock disponible de los productos antes de crear la orden.")
     @ApiResponses(value = {
         @ApiResponse(responseCode = "201", description = "Orden creada exitosamente"),
-        @ApiResponse(responseCode = "400", description = "Datos de orden inválidos"),
-        @ApiResponse(responseCode = "400", description = "Stock insuficiente")
+        @ApiResponse(responseCode = "400", description = "Datos de la orden inválidos"),
+        @ApiResponse(responseCode = "400", description = "Stock insuficiente para uno o más productos"),
+        @ApiResponse(responseCode = "404", description = "Uno o más productos no encontrados")
     })
-    public OrderResponseDTO createOrder(@RequestBody OrderDTO orderDTO) {
+    @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
+    public OrderResponseDTO createOrder(@Parameter(description = "Datos de la orden a crear") @RequestBody OrderDTO orderDTO) {
         return orderService.createOrder(orderDTO);
     }
 } 
