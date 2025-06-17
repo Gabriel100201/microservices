@@ -114,4 +114,18 @@ public class ProductController {
     public Double getProductPrice(@Parameter(description = "ID del producto") @PathVariable Long id) {
         return productService.getProductByID(id).getPrice();
     }
+
+    @Operation(summary = "Actualizar stock de producto", description = "Actualiza el stock disponible de un producto específico")
+    @ApiResponses(value = {
+        @ApiResponse(responseCode = "200", description = "Stock actualizado exitosamente"),
+        @ApiResponse(responseCode = "400", description = "Stock insuficiente"),
+        @ApiResponse(responseCode = "404", description = "Producto no encontrado")
+    })
+    @PutMapping("/{id}/stock")
+    @ResponseStatus(HttpStatus.OK)
+    public void updateProductStock(
+            @Parameter(description = "ID del producto") @PathVariable Long id,
+            @Parameter(description = "Cantidad a restar del stock") @RequestBody Integer quantity) {
+        productService.updateProductStock(id, quantity);
+    }
 }

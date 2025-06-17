@@ -4,6 +4,7 @@ import com.ucc.orders.model.dto.OrderDTO;
 import com.ucc.orders.model.dto.OrderResponseDTO;
 import com.ucc.orders.model.entities.Order;
 import com.ucc.orders.model.entities.OrderItem;
+import com.ucc.orders.model.enums.OrderStatus;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
@@ -23,7 +24,7 @@ public class OrderMapper {
 
         Order order = new Order();
         order.setOrderDate(java.time.LocalDateTime.now());
-        order.setStatus("PENDING");
+        order.setStatus(OrderStatus.PENDING);
         
         // Crear los items y establecer la referencia bidireccional
         order.setOrderItems(

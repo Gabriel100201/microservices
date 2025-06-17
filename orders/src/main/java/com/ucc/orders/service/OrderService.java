@@ -6,13 +6,16 @@ import com.ucc.orders.exceptions.orders.OrderValidationException;
 import com.ucc.orders.exceptions.orders.ProductNotFoundException;
 import com.ucc.orders.model.dto.OrderDTO;
 import com.ucc.orders.model.dto.OrderResponseDTO;
+import com.ucc.orders.model.dto.OrderStatusUpdateDTO;
 import com.ucc.orders.model.entities.Order;
 import com.ucc.orders.model.entities.OrderItem;
+import com.ucc.orders.model.enums.OrderStatus;
 import com.ucc.orders.model.mappers.OrderMapper;
 import com.ucc.orders.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
@@ -123,6 +126,65 @@ public class OrderService {
             );
         } catch (HttpClientErrorException.NotFound e) {
             throw new ProductNotFoundException("No se encontró el producto con el ID: " + productId);
+        }
+    }
+
+    @Transactional
+    public OrderResponseDTO updateOrderStatus(Long orderId, OrderStatusUpdateDTO statusUpdate) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new OrderNotFoundException("No se encontró la orden con el ID: " + orderId));
+
+        if (order.getStatus() == statusUpdate.getStatus()) {
+            throw new OrderValidationException("La orden ya está en el estado: " + statusUpdate.getStatus());
+        }
+
+        // Validar transición de estado
+        validateStatusTransition(order.getStatus(), statusUpdate.getStatus());
+
+        // Si se está confirmando la orden, actualizar el stock
+        if (statusUpdate.getStatus() == OrderStatus.CONFIRMED) {
+            updateProductStock(order, false);
+        }
+        // Si se está cancelando la orden y estaba confirmada, restaurar el stock
+        else if (statusUpdate.getStatus() == OrderStatus.CANCELLED && order.getStatus() == OrderStatus.CONFIRMED) {
+            updateProductStock(order, true);
+        }
+
+        order.setStatus(statusUpdate.getStatus());
+        Order updatedOrder = orderRepository.save(order);
+        return orderMapper.orderToOrderResponseDTO(updatedOrder);
+    }
+
+    private void validateStatusTransition(OrderStatus currentStatus, OrderStatus newStatus) {
+        if (currentStatus == OrderStatus.CANCELLED || currentStatus == OrderStatus.COMPLETED) {
+            throw new OrderValidationException("No se puede cambiar el estado de una orden " + currentStatus);
+        }
+
+        if (currentStatus == OrderStatus.PENDING && newStatus == OrderStatus.COMPLETED) {
+            throw new OrderValidationException("Una orden PENDING no puede pasar directamente a COMPLETED");
+        }
+
+        if (currentStatus == OrderStatus.CONFIRMED && newStatus == OrderStatus.PENDING) {
+            throw new OrderValidationException("Una orden CONFIRMED no puede volver a PENDING");
+        }
+    }
+
+    private void updateProductStock(Order order, boolean isRestoring) {
+        for (OrderItem item : order.getOrderItems()) {
+            try {
+                // Llamar al servicio de productos para actualizar el stock
+                // Si isRestoring es true, enviamos la cantidad como negativa para sumar al stock
+                Integer quantity = isRestoring ? -item.getQuantity() : item.getQuantity();
+                restTemplate.put(
+                    "http://localhost:8080/api/products/{id}/stock",
+                    quantity,
+                    item.getProductId()
+                );
+            } catch (HttpClientErrorException e) {
+                throw new OrderValidationException(
+                    "Error al actualizar el stock del producto " + item.getProductId() + ": " + e.getMessage()
+                );
+            }
         }
     }
 } 

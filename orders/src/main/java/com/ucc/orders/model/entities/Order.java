@@ -1,6 +1,7 @@
 package com.ucc.orders.model.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.ucc.orders.model.enums.OrderStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,7 +23,10 @@ public class Order {
     private Long id;
 
     private LocalDateTime orderDate;
-    private String status;
+    
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
+    
     private Double totalAmount;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)

@@ -12,6 +12,7 @@ import com.ucc.product.repository.ProductRepository;
 import com.ucc.product.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -122,6 +123,27 @@ public class ProductService {
                 .orElseThrow(() -> new ProductNotFoundException("No se encontró el producto con el ID: " + productId));
 
         return product.getStock();
+    }
+
+    @Transactional
+    public void updateProductStock(Long id, Integer quantity) {
+        Product product = getProductByID(id);
+        
+        // Si la cantidad es negativa, estamos restaurando stock
+        if (quantity < 0) {
+            product.setStock(product.getStock() - quantity); // Restamos un número negativo = sumamos
+        } else {
+            // Si la cantidad es positiva, verificamos que haya stock suficiente
+            if (product.getStock() < quantity) {
+                throw new ProductValidationException(
+                    String.format("Stock insuficiente. Disponible: %d, Solicitado: %d", 
+                        product.getStock(), quantity)
+                );
+            }
+            product.setStock(product.getStock() - quantity);
+        }
+        
+        productRepository.save(product);
     }
 
     private void validateProductDTO(ProductDTO productDTO) {
