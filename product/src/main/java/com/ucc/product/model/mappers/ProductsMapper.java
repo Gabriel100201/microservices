@@ -1,5 +1,6 @@
 package com.ucc.product.model.mappers;
 
+import com.ucc.product.exceptions.categories.CategoryNotFoundException;
 import com.ucc.product.model.entities.Category;
 import com.ucc.product.model.entities.Product;
 import com.ucc.product.model.dto.ProductDTO;
@@ -21,7 +22,8 @@ public class ProductsMapper {
         productEntity.setStock(productDTO.getStock());
         productEntity.setDescription(productDTO.getDescription());
 
-        Category categoryEntity = categoryRepository.findOneById(productDTO.getCategoryDTO().getId());
+        Category categoryEntity = categoryRepository.findById(productDTO.getCategoryDTO().getId())
+                .orElseThrow(() -> new CategoryNotFoundException("No se encontró la categoría con el ID: " + productDTO.getCategoryDTO().getId()));
         productEntity.setCategory(categoryEntity);
         return productEntity;
     }

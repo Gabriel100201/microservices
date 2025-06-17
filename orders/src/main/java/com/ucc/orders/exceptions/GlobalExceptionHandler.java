@@ -3,6 +3,7 @@ package com.ucc.orders.exceptions;
 import com.ucc.orders.exceptions.orders.OrderNotFoundException;
 import com.ucc.orders.exceptions.orders.OrderValidationException;
 import com.ucc.orders.exceptions.orders.InsufficientStockException;
+import com.ucc.orders.exceptions.orders.ProductNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,6 +42,18 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(InsufficientStockException.class)
     public ResponseEntity<ErrorResponse> handleInsufficientStockException(
             InsufficientStockException ex, HttpServletRequest request) {
+        ErrorResponse error = new ErrorResponse(
+            LocalDateTime.now(),
+            ex.getCode(),
+            ex.getMessage(),
+            request.getRequestURI()
+        );
+        return new ResponseEntity<>(error, ex.getStatus());
+    }
+
+    @ExceptionHandler(ProductNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleProductNotFoundException(
+            ProductNotFoundException ex, HttpServletRequest request) {
         ErrorResponse error = new ErrorResponse(
             LocalDateTime.now(),
             ex.getCode(),

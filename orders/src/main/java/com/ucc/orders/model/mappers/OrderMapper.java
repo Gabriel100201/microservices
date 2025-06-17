@@ -3,6 +3,7 @@ package com.ucc.orders.model.mappers;
 import com.ucc.orders.model.dto.OrderDTO;
 import com.ucc.orders.model.dto.OrderResponseDTO;
 import com.ucc.orders.model.entities.Order;
+import com.ucc.orders.model.entities.OrderItem;
 import org.springframework.stereotype.Component;
 
 import java.util.stream.Collectors;
@@ -23,11 +24,18 @@ public class OrderMapper {
         Order order = new Order();
         order.setOrderDate(java.time.LocalDateTime.now());
         order.setStatus("PENDING");
+        
+        // Crear los items y establecer la referencia bidireccional
         order.setOrderItems(
             orderDTO.getItems().stream()
-                .map(orderItemMapper::orderItemDTOToOrderItem)
+                .map(dto -> {
+                    OrderItem item = orderItemMapper.orderItemDTOToOrderItem(dto);
+                    item.setOrder(order); // Establecer la referencia al order
+                    return item;
+                })
                 .collect(Collectors.toList())
         );
+        
         return order;
     }
 

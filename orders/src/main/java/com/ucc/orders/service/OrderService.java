@@ -3,6 +3,7 @@ package com.ucc.orders.service;
 import com.ucc.orders.exceptions.orders.InsufficientStockException;
 import com.ucc.orders.exceptions.orders.OrderNotFoundException;
 import com.ucc.orders.exceptions.orders.OrderValidationException;
+import com.ucc.orders.exceptions.orders.ProductNotFoundException;
 import com.ucc.orders.model.dto.OrderDTO;
 import com.ucc.orders.model.dto.OrderResponseDTO;
 import com.ucc.orders.model.entities.Order;
@@ -10,7 +11,9 @@ import com.ucc.orders.model.entities.OrderItem;
 import com.ucc.orders.model.mappers.OrderMapper;
 import com.ucc.orders.repository.OrderRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
@@ -85,33 +88,41 @@ public class OrderService {
     }
 
     private void verifyProductStock(Long productId, Integer quantity) {
-        // Llamar al servicio de productos para verificar stock
-        Integer availableStock = restTemplate.getForObject(
-            "http://localhost:8080/api/products/{id}/stock",
-            Integer.class,
-            productId
-        );
-
-        if (availableStock == null) {
-            throw new InsufficientStockException(
-                String.format("No se pudo verificar el stock para el producto %d", productId)
+        try {
+            // Llamar al servicio de productos para verificar stock
+            Integer availableStock = restTemplate.getForObject(
+                "http://localhost:8080/api/products/{id}/stock",
+                Integer.class,
+                productId
             );
-        }
 
-        if (availableStock < quantity) {
-            throw new InsufficientStockException(
-                String.format("Stock insuficiente para el producto %d. Disponible: %d, Solicitado: %d",
-                    productId, availableStock, quantity)
-            );
+            if (availableStock == null) {
+                throw new InsufficientStockException(
+                    String.format("No se pudo verificar el stock para el producto %d", productId)
+                );
+            }
+
+            if (availableStock < quantity) {
+                throw new InsufficientStockException(
+                    String.format("Stock insuficiente para el producto %d. Disponible: %d, Solicitado: %d",
+                        productId, availableStock, quantity)
+                );
+            }
+        } catch (HttpClientErrorException.NotFound e) {
+            throw new ProductNotFoundException("No se encontró el producto con el ID: " + productId);
         }
     }
 
     private Double getProductPrice(Long productId) {
-        // Llamar al servicio de productos para obtener el precio
-        return restTemplate.getForObject(
-            "http://localhost:8080/api/products/{id}/price",
-            Double.class,
-            productId
-        );
+        try {
+            // Llamar al servicio de productos para obtener el precio
+            return restTemplate.getForObject(
+                "http://localhost:8080/api/products/{id}/price",
+                Double.class,
+                productId
+            );
+        } catch (HttpClientErrorException.NotFound e) {
+            throw new ProductNotFoundException("No se encontró el producto con el ID: " + productId);
+        }
     }
 } 
