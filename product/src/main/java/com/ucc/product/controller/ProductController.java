@@ -77,9 +77,9 @@ public class ProductController {
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public void editProductByID(
-            @Parameter(description = "Datos actualizados del producto") @RequestBody Product product,
-            @Parameter(description = "ID del producto") @PathVariable Long id){
-        this.productService.editProductByID(product, id);
+            @Parameter(description = "Datos a actualizar del producto") @RequestBody ProductDTO productDTO,
+            @Parameter(description = "ID del producto a actualizar") @PathVariable Long id){
+        this.productService.editProductByID(productDTO, id);
     }
 
     @Operation(summary = "Obtener productos activos", description = "Retorna una lista de todos los productos con estado activo")

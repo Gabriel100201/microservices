@@ -2,11 +2,14 @@ package com.ucc.product.service;
 
 import com.ucc.product.exceptions.products.ProductNotFoundException;
 import com.ucc.product.exceptions.products.ProductValidationException;
+import com.ucc.product.exceptions.categories.CategoryNotFoundException;
 import com.ucc.product.model.entities.Product;
+import com.ucc.product.model.entities.Category;
 import com.ucc.product.model.dto.ProductDTO;
 import com.ucc.product.model.dto.ProductinfoDTO;
 import com.ucc.product.model.mappers.ProductsMapper;
 import com.ucc.product.repository.ProductRepository;
+import com.ucc.product.repository.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,6 +22,7 @@ import java.util.stream.Collectors;
 public class ProductService {
     private final ProductRepository productRepository;
     private final ProductsMapper productsMapper;
+    private final CategoryRepository categoryRepository;
 
     public List<ProductinfoDTO> getAllProducts() {
         List<Product> products = productRepository.findAll();
@@ -54,26 +58,31 @@ public class ProductService {
         productRepository.deleteById(id);
     }
 
-    public void editProductByID(Product product, Long id) {
+    public void editProductByID(ProductDTO productDTO, Long id) {
         if (id == null || id <= 0) {
             throw new ProductValidationException("El ID del producto debe ser un número positivo");
         }
-        if (product == null) {
+        if (productDTO == null) {
             throw new ProductValidationException("El producto no puede ser nulo");
         }
         
-        Product existProduct = productRepository.findById(id)
+        Product existingProduct = productRepository.findById(id)
                 .orElseThrow(() -> new ProductNotFoundException("No se encontró el producto con el ID: " + id));
 
-        validateProductForUpdate(product);
+        validateProductDTO(productDTO);
         
-        existProduct.setName(product.getName());
-        existProduct.setDescription(product.getDescription());
-        existProduct.setStock(product.getStock());
-        existProduct.setStatus(product.getStatus());
-        existProduct.setPrice(product.getPrice());
+        existingProduct.setName(productDTO.getName());
+        existingProduct.setDescription(productDTO.getDescription());
+        existingProduct.setStock(productDTO.getStock());
+        existingProduct.setPrice(productDTO.getPrice());
+        
+        if (productDTO.getCategoryDTO() != null) {
+            Category category = categoryRepository.findById(productDTO.getCategoryDTO().getId())
+                    .orElseThrow(() -> new CategoryNotFoundException("No se encontró la categoría con el ID: " + productDTO.getCategoryDTO().getId()));
+            existingProduct.setCategory(category);
+        }
 
-        productRepository.save(existProduct);
+        productRepository.save(existingProduct);
     }
 
     public List<Product> getProductsByStatusTrue() {
