@@ -37,6 +37,14 @@ spring.datasource.password=1234
 - `PUT /api/products/{id}` - Actualizar un producto existente
 - `DELETE /api/products/{id}` - Eliminar un producto
 
+### Categorías
+
+- `GET /api/categories` - Obtener todas las categorías
+- `GET /api/categories/{id}` - Obtener una categoría por ID
+- `POST /api/categories` - Crear una nueva categoría
+- `PUT /api/categories/{id}` - Actualizar una categoría existente
+- `DELETE /api/categories/{id}` - Eliminar una categoría
+
 ### Documentación Swagger
 
 La documentación completa de la API está disponible en:
@@ -46,9 +54,14 @@ La documentación completa de la API está disponible en:
 
 El servicio incluye manejo personalizado de excepciones:
 
+### Productos
 - `ProductNotFoundException`: Cuando no se encuentra un producto
 - `ProductValidationException`: Para errores de validación
 - `ProductNotExistException`: Para productos que no existen
+
+### Categorías
+- `CategoryNotFoundException`: Cuando no se encuentra una categoría
+- `CategoryValidationException`: Para errores de validación de categorías
 
 ## Seguridad
 
