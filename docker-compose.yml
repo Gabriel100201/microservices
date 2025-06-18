@@ -6,8 +6,8 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_DB: product
-      POSTGRES_USER: axel
-      POSTGRES_PASSWORD: axel
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 1234
     ports:
       - 5431:5431
     expose:
@@ -20,8 +20,8 @@ services:
     restart: unless-stopped
     environment:
       POSTGRES_DB: orders
-      POSTGRES_USER: axel
-      POSTGRES_PASSWORD: axel
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 1234
     ports:
       - 5432:5432
     expose:

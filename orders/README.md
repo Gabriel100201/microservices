@@ -21,18 +21,11 @@ Crear un archivo `application.properties` con las siguientes configuraciones:
 
 ```properties
 server.port=8081
-
-spring.datasource.url=jdbc:postgresql://localhost:5432/orders
-spring.datasource.username=axel
-spring.datasource.password=axel
 spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-
-# Configuración para comunicación con el servicio de productos
-product.service.url=http://localhost:8080/api/products
-
-springdoc.api-docs.path=/api-docs
-springdoc.swagger-ui.path=/swagger-ui.html
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.datasource.url=jdbc:postgresql://localhost:5432/orders
+spring.datasource.username=admin
+spring.datasource.password=1234
 ```
 
 ## Endpoints

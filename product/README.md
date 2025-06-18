@@ -20,15 +20,11 @@ Crear un archivo `application.properties` con las siguientes configuraciones:
 
 ```properties
 server.port=8080
-
-spring.datasource.url=jdbc:postgresql://localhost:5431/product
-spring.datasource.username=axel
-spring.datasource.password=axel
 spring.jpa.hibernate.ddl-auto=update
-spring.jpa.show-sql=true
-
-springdoc.api-docs.path=/api-docs
-springdoc.swagger-ui.path=/swagger-ui.html
+spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.PostgreSQLDialect
+spring.datasource.url=jdbc:postgresql://localhost:5431/product
+spring.datasource.username=admin
+spring.datasource.password=1234
 ```
 
 ## Endpoints
@@ -60,7 +56,7 @@ El servicio implementa autenticación básica HTTP. Para acceder a los endpoints
 
 1. Usar las credenciales configuradas en el servicio:
    - Usuario: admin
-   - Contraseña: admin
+   - Contraseña: 1234
 
 ## Ejecución
 
@@ -68,9 +64,3 @@ El servicio implementa autenticación básica HTTP. Para acceder a los endpoints
 ```bash
 mvn spring-boot:run
 ```
-
-### Usando Docker
-```bash
-docker build -t product-service .
-docker run -p 8080:8080 product-service
-``` 
