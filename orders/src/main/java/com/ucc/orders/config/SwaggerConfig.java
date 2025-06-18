@@ -18,8 +18,8 @@ public class SwaggerConfig {
                         .description("API REST para la gestión de órdenes y pedidos")
                         .version("1.0")
                         .contact(new Contact()
-                                .name("Equipo de Desarrollo")
-                                .email("desarrollo@ucc.edu.co"))
+                                .name("Funes Gabriel - Mestre Lucía")
+                                .email("gabrielfunes100202@gmail.com | luciametola@gmail.com"))
                         .license(new License()
                                 .name("Apache 2.0")
                                 .url("http://www.apache.org/licenses/LICENSE-2.0.html")));

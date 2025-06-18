@@ -26,12 +26,11 @@ public class OrderMapper {
         order.setOrderDate(java.time.LocalDateTime.now());
         order.setStatus(OrderStatus.PENDING);
         
-        // Crear los items y establecer la referencia bidireccional
         order.setOrderItems(
             orderDTO.getItems().stream()
                 .map(dto -> {
                     OrderItem item = orderItemMapper.orderItemDTOToOrderItem(dto);
-                    item.setOrder(order); // Establecer la referencia al order
+                    item.setOrder(order);
                     return item;
                 })
                 .collect(Collectors.toList())
