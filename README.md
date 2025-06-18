@@ -31,14 +31,14 @@ El proyecto utiliza Docker Compose para configurar las bases de datos PostgreSQL
 
 - Base de datos de Productos:
   - Puerto: 5431
-  - Usuario: axel
-  - Contraseña: axel
+  - Usuario: admin
+  - Contraseña: 1234
   - Base de datos: product
 
 - Base de datos de Órdenes:
   - Puerto: 5432
-  - Usuario: axel
-  - Contraseña: axel
+  - Usuario: admin
+  - Contraseña: 1234
   - Base de datos: orders
 
 ## Ejecución del Proyecto
@@ -81,13 +81,7 @@ El proyecto implementa autenticación básica HTTP. Para acceder a los endpoints
 1. Usar las credenciales configuradas en cada servicio
 2. Incluir en el header de las peticiones:
 ```
-Authorization: Basic <credenciales_en_base64>
+Authorization: Basic <usuario:contraseña>
 ```
 
-## Contribución
-
-1. Fork el proyecto
-2. Crear una rama para tu feature (`git checkout -b feature/AmazingFeature`)
-3. Commit tus cambios (`git commit -m 'Add some AmazingFeature'`)
-4. Push a la rama (`git push origin feature/AmazingFeature`)
-5. Abrir un Pull Request
+Los servicios utilizan autenticación básica con usuario y contraseña directamente, sin necesidad de codificación en base64.
