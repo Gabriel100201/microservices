@@ -67,6 +67,50 @@ cd orders
 mvn spring-boot:run
 ```
 
+## Flujo de Funcionamiento del Sistema
+
+### Orden de Operaciones para Probar el Proyecto
+
+Para probar completamente el sistema, debes seguir este orden específico de operaciones:
+
+#### 1. Crear una Categoría
+Primero, necesitas crear una categoría para los productos:
+
+#### 2. Crear un Producto
+Una vez creada la categoría, puedes crear productos asociados a ella
+
+#### 3. Crear una Orden
+Finalmente, puedes crear una orden con los productos disponibles:
+
+### Estados de las Órdenes
+
+El sistema maneja los siguientes estados para las órdenes:
+
+#### Estados Disponibles:
+- **PENDING**: Estado inicial de la orden cuando se crea
+- **CONFIRMED**: Orden confirmada por el sistema
+- **CANCELLED**: Orden cancelada
+- **COMPLETED**: Orden completada y entregada
+
+#### Comportamiento por Estado:
+
+- **PENDING → CONFIRMED**: 
+  - Se verifica el stock disponible
+  - Se actualiza automáticamente el stock de los productos
+  - La orden queda confirmada para procesamiento
+
+- **CONFIRMED → COMPLETED**: 
+  - La orden se marca como completada
+  - Indica que el producto ha sido entregado
+
+- **Cualquier estado → CANCELLED**: 
+  - La orden se cancela
+  - No se puede cambiar a otros estados
+
+### Verificación de Stock
+
+El sistema verifica automáticamente el stock disponible:
+
 ## Documentación
 
 Cada microservicio incluye su propia documentación Swagger UI, accesible en:
