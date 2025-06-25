@@ -106,6 +106,7 @@ El sistema maneja los siguientes estados para las órdenes:
 - **Cualquier estado → CANCELLED**: 
   - La orden se cancela
   - No se puede cambiar a otros estados
+  - Se reintegra el stock
 
 ### Verificación de Stock
 

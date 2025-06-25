@@ -4,14 +4,13 @@ Este microservicio maneja la gestión de órdenes de compra, incluyendo la creac
 
 ## Tecnologías Utilizadas
 
-- Spring Boot 3.x
+- Spring Boot
 - Spring Data JPA
 - PostgreSQL
 - Spring Security
 - Swagger/OpenAPI
 - Lombok
 - Maven
-- Spring Cloud (para comunicación entre microservicios)
 
 ## Configuración
 
@@ -36,8 +35,6 @@ spring.datasource.password=1234
 - `GET /api/orders/{id}` - Obtener una orden por ID
 - `POST /api/orders` - Crear una nueva orden
 - `PUT /api/orders/{id}` - Actualizar una orden existente
-- `DELETE /api/orders/{id}` - Eliminar una orden
-- `GET /api/orders/status/{status}` - Obtener órdenes por estado
 
 ### Documentación Swagger
 
@@ -50,7 +47,8 @@ El servicio incluye manejo personalizado de excepciones:
 
 - `OrderNotFoundException`: Cuando no se encuentra una orden
 - `OrderValidationException`: Para errores de validación
-- `ProductNotAvailableException`: Cuando un producto no está disponible
+- `ProductNotFoundException`: Cuando no se encuentra el producto con el id especificado
+- `InsufficientStockException`: Cuando no hay suficiente stock del producto indicado
 
 ## Seguridad
 
@@ -58,7 +56,7 @@ El servicio implementa autenticación básica HTTP. Para acceder a los endpoints
 
 1. Usar las credenciales configuradas en el servicio:
    - Usuario: admin
-   - Contraseña: admin
+   - Contraseña: 1234
 
 ## Comunicación entre Microservicios
 

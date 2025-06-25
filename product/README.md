@@ -4,7 +4,7 @@ Este microservicio maneja la gestión de productos, incluyendo operaciones CRUD 
 
 ## Tecnologías Utilizadas
 
-- Spring Boot 3.x
+- Spring Boot
 - Spring Data JPA
 - PostgreSQL
 - Spring Security
@@ -33,8 +33,12 @@ spring.datasource.password=1234
 
 - `GET /api/products` - Obtener todos los productos
 - `GET /api/products/{id}` - Obtener un producto por ID
+- `GET /api/products/true` - Obtener productos activos
+- `GET /api/products/{id}/stock` - Obtener stock de un producto
+- `GET /api/products/{id}/price` - Obtener precio de un producto
 - `POST /api/products` - Crear un nuevo producto
 - `PUT /api/products/{id}` - Actualizar un producto existente
+- `PUT /api/products/{id}/stock` - Actualizar stock de un producto
 - `DELETE /api/products/{id}` - Eliminar un producto
 
 ### Categorías
@@ -76,4 +80,10 @@ El servicio implementa autenticación básica HTTP. Para acceder a los endpoints
 ### Usando Maven
 ```bash
 mvn spring-boot:run
+```
+
+### Usando Docker
+```bash
+docker build -t products-service .
+docker run -p 8080:8080 products-service
 ```
