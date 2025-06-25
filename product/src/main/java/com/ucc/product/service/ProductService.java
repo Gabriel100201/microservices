@@ -77,9 +77,9 @@ public class ProductService {
         existingProduct.setStock(productDTO.getStock());
         existingProduct.setPrice(productDTO.getPrice());
         
-        if (productDTO.getCategoryDTO() != null) {
-            Category category = categoryRepository.findById(productDTO.getCategoryDTO().getId())
-                    .orElseThrow(() -> new CategoryNotFoundException("No se encontró la categoría con el ID: " + productDTO.getCategoryDTO().getId()));
+        if (productDTO.getCategoryReferenceDTO() != null) {
+            Category category = categoryRepository.findById(productDTO.getCategoryReferenceDTO().getId())
+                    .orElseThrow(() -> new CategoryNotFoundException("No se encontró la categoría con el ID: " + productDTO.getCategoryReferenceDTO().getId()));
             existingProduct.setCategory(category);
         }
 

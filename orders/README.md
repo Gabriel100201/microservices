@@ -42,7 +42,7 @@ spring.datasource.password=1234
 ### Documentación Swagger
 
 La documentación completa de la API está disponible en:
-- Swagger UI: http://localhost:8080/swagger-ui.html
+- Swagger UI: http://localhost:8081/swagger-ui.html
 
 ## Manejo de Excepciones
 

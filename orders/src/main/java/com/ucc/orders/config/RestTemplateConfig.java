@@ -22,7 +22,7 @@ public class RestTemplateConfig {
             @Override
             public ClientHttpResponse intercept(org.springframework.http.HttpRequest request, byte[] body,
                     ClientHttpRequestExecution execution) throws IOException {
-                String auth = "gfunes:1234";
+                String auth = "admin:1234";
                 String encodedAuth = Base64.getEncoder().encodeToString(auth.getBytes());
                 request.getHeaders().set(HttpHeaders.AUTHORIZATION, "Basic " + encodedAuth);
                 return execution.execute(request, body);

@@ -1,7 +1,8 @@
 package com.ucc.product.controller;
 
-import com.ucc.product.model.dto.CategoryDTO;
+import com.ucc.product.model.dto.CategoryCreateDTO;
 import com.ucc.product.model.dto.CategoryResponseDTO;
+import com.ucc.product.model.dto.CategoryUpdateDTO;
 import com.ucc.product.service.CategoryService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -52,8 +53,8 @@ public class CategoryController {
     })
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public CategoryResponseDTO createCategory(@Parameter(description = "Datos de la categoría") @RequestBody CategoryDTO categoryDTO) {
-        return categoryService.createCategory(categoryDTO);
+    public CategoryResponseDTO createCategory(@Parameter(description = "Datos de la categoría") @RequestBody CategoryCreateDTO categoryCreateDTO) {
+        return categoryService.createCategory(categoryCreateDTO);
     }
 
     @Operation(summary = "Actualizar categoría", description = "Actualiza los datos de una categoría existente")
@@ -66,8 +67,8 @@ public class CategoryController {
     @ResponseStatus(HttpStatus.OK)
     public CategoryResponseDTO updateCategory(
             @Parameter(description = "ID de la categoría") @PathVariable Long id,
-            @Parameter(description = "Datos actualizados de la categoría") @RequestBody CategoryDTO categoryDTO) {
-        return categoryService.updateCategory(id, categoryDTO);
+            @Parameter(description = "Datos actualizados de la categoría") @RequestBody CategoryUpdateDTO categoryUpdateDTO) {
+        return categoryService.updateCategory(id, categoryUpdateDTO);
     }
 
     @Operation(summary = "Eliminar categoría", description = "Elimina una categoría específica basada en su ID")

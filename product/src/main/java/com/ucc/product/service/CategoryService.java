@@ -2,8 +2,9 @@ package com.ucc.product.service;
 
 import com.ucc.product.exceptions.categories.CategoryNotFoundException;
 import com.ucc.product.exceptions.categories.CategoryValidationException;
-import com.ucc.product.model.dto.CategoryDTO;
+import com.ucc.product.model.dto.CategoryCreateDTO;
 import com.ucc.product.model.dto.CategoryResponseDTO;
+import com.ucc.product.model.dto.CategoryUpdateDTO;
 import com.ucc.product.model.entities.Category;
 import com.ucc.product.model.mappers.CategoryMapper;
 import com.ucc.product.repository.CategoryRepository;
@@ -39,27 +40,27 @@ public class CategoryService {
         return categoryMapper.categoryToCategoryResponseDTO(category);
     }
 
-    public CategoryResponseDTO createCategory(CategoryDTO categoryDTO) {
-        validateCategoryDTO(categoryDTO);
-        Category category = categoryMapper.categoryDTOToCategory(categoryDTO);
+    public CategoryResponseDTO createCategory(CategoryCreateDTO categoryCreateDTO) {
+        validateCategoryCreateDTO(categoryCreateDTO);
+        Category category = categoryMapper.categoryCreateDTOToCategory(categoryCreateDTO);
         Category savedCategory = categoryRepository.save(category);
         return categoryMapper.categoryToCategoryResponseDTO(savedCategory);
     }
 
-    public CategoryResponseDTO updateCategory(Long id, CategoryDTO categoryDTO) {
+    public CategoryResponseDTO updateCategory(Long id, CategoryUpdateDTO categoryUpdateDTO) {
         if (id == null || id <= 0) {
             throw new CategoryValidationException("El ID de la categoría debe ser un número positivo");
         }
-        if (categoryDTO == null) {
+        if (categoryUpdateDTO == null) {
             throw new CategoryValidationException("La categoría no puede ser nula");
         }
 
         Category existingCategory = categoryRepository.findById(id)
                 .orElseThrow(() -> new CategoryNotFoundException("No se encontró la categoría con el ID: " + id));
 
-        validateCategoryDTO(categoryDTO);
+        validateCategoryUpdateDTO(categoryUpdateDTO);
         
-        existingCategory.setName(categoryDTO.getName());
+        existingCategory.setName(categoryUpdateDTO.getName());
         
         Category updatedCategory = categoryRepository.save(existingCategory);
         return categoryMapper.categoryToCategoryResponseDTO(updatedCategory);
@@ -75,11 +76,20 @@ public class CategoryService {
         categoryRepository.deleteById(id);
     }
 
-    private void validateCategoryDTO(CategoryDTO categoryDTO) {
-        if (categoryDTO == null) {
+    private void validateCategoryCreateDTO(CategoryCreateDTO categoryCreateDTO) {
+        if (categoryCreateDTO == null) {
             throw new CategoryValidationException("La categoría no puede ser nula");
         }
-        if (categoryDTO.getName() == null || categoryDTO.getName().trim().isEmpty()) {
+        if (categoryCreateDTO.getName() == null || categoryCreateDTO.getName().trim().isEmpty()) {
+            throw new CategoryValidationException("El nombre de la categoría no puede estar vacío");
+        }
+    }
+
+    private void validateCategoryUpdateDTO(CategoryUpdateDTO categoryUpdateDTO) {
+        if (categoryUpdateDTO == null) {
+            throw new CategoryValidationException("La categoría no puede ser nula");
+        }
+        if (categoryUpdateDTO.getName() == null || categoryUpdateDTO.getName().trim().isEmpty()) {
             throw new CategoryValidationException("El nombre de la categoría no puede estar vacío");
         }
     }

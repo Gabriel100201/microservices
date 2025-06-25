@@ -1,14 +1,15 @@
 package com.ucc.product.model.mappers;
 
-import com.ucc.product.model.dto.CategoryDTO;
+import com.ucc.product.model.dto.CategoryCreateDTO;
 import com.ucc.product.model.dto.CategoryResponseDTO;
+import com.ucc.product.model.dto.CategoryUpdateDTO;
 import com.ucc.product.model.entities.Category;
 import org.springframework.stereotype.Component;
 
 @Component
 public class CategoryMapper {
     
-    public Category categoryDTOToCategory(CategoryDTO dto) {
+    public Category categoryCreateDTOToCategory(CategoryCreateDTO dto) {
         if (dto == null) {
             return null;
         }
