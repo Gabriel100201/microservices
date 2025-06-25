@@ -77,9 +77,9 @@ public class ProductService {
         existingProduct.setStock(productDTO.getStock());
         existingProduct.setPrice(productDTO.getPrice());
         
-        if (productDTO.getCategoryReferenceDTO() != null) {
-            Category category = categoryRepository.findById(productDTO.getCategoryReferenceDTO().getId())
-                    .orElseThrow(() -> new CategoryNotFoundException("No se encontró la categoría con el ID: " + productDTO.getCategoryReferenceDTO().getId()));
+        if (productDTO.getCategoryId() != null) {
+            Category category = categoryRepository.findById(productDTO.getCategoryId())
+                    .orElseThrow(() -> new CategoryNotFoundException("No se encontró la categoría con el ID: " + productDTO.getCategoryId()));
             existingProduct.setCategory(category);
         }
 
@@ -158,6 +158,9 @@ public class ProductService {
         }
         if (productDTO.getStock() == null || productDTO.getStock() < 0) {
             throw new ProductValidationException("El stock no puede ser negativo");
+        }
+        if (productDTO.getCategoryId() == null || productDTO.getCategoryId() <= 0) {
+            throw new ProductValidationException("El ID de la categoría debe ser un número positivo");
         }
     }
 

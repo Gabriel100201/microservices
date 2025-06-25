@@ -22,8 +22,8 @@ public class ProductsMapper {
         productEntity.setStock(productDTO.getStock());
         productEntity.setDescription(productDTO.getDescription());
 
-        Category categoryEntity = categoryRepository.findById(productDTO.getCategoryReferenceDTO().getId())
-                .orElseThrow(() -> new CategoryNotFoundException("No se encontró la categoría con el ID: " + productDTO.getCategoryReferenceDTO().getId()));
+        Category categoryEntity = categoryRepository.findById(productDTO.getCategoryId())
+                .orElseThrow(() -> new CategoryNotFoundException("No se encontró la categoría con el ID: " + productDTO.getCategoryId()));
         productEntity.setCategory(categoryEntity);
         return productEntity;
     }
