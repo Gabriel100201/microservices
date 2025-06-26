@@ -31,7 +31,7 @@ public class ProductService {
             throw new ProductNotFoundException("No hay productos disponibles");
         }
         return products.stream()
-                .map(productEntity -> new ProductinfoDTO(productEntity.getName(), productEntity.getPrice(), productEntity.getCategory()))
+                .map(productEntity -> new ProductinfoDTO(productEntity.getId(), productEntity.getName(), productEntity.getPrice(), productEntity.getCategory()))
                 .collect(Collectors.toList());
     }
 
