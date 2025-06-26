@@ -1,0 +1,840 @@
+{
+  "info": {
+    "_postman_id": "microservicios-ucc-collection",
+    "name": "Microservicios UCC",
+    "description": "Colección completa para probar los microservicios de Productos y Órdenes",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "1. Configuración Inicial",
+      "item": [
+        {
+          "name": "📋 Instrucciones de Configuración",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "https://httpbin.org/get",
+              "host": ["https://httpbin.org"],
+              "path": ["get"]
+            },
+            "description": "⚠️ IMPORTANTE: Configurar las siguientes variables de entorno en Postman antes de usar la colección:\n\n🔧 Variables a configurar:\n- base_url_product: http://localhost:8080\n- base_url_orders: http://localhost:8081\n- username: admin\n- password: 1234\n\n📝 Cómo configurar:\n1. En Postman, ve a la pestaña 'Variables'\n2. Agrega las variables listadas arriba\n3. O usa las variables predefinidas en la colección\n\n✅ Una vez configuradas, puedes ejecutar las llamadas en el orden recomendado."
+          },
+          "response": []
+        }
+      ],
+      "description": "Configuración inicial de variables de entorno necesarias para todas las llamadas"
+    },
+    {
+      "name": "2. Servicio de Productos",
+      "item": [
+        {
+          "name": "Categorías",
+          "item": [
+            {
+              "name": "Crear Categoría",
+              "request": {
+                "auth": {
+                  "type": "basic",
+                  "basic": [
+                    {
+                      "key": "username",
+                      "value": "{{username}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "password",
+                      "value": "{{password}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"Electrónicos\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url_product}}/api/categories",
+                  "host": ["{{base_url_product}}"],
+                  "path": ["api", "categories"]
+                },
+                "description": "Crear una nueva categoría. Esta es la primera operación que debes realizar para poder crear productos."
+              },
+              "response": []
+            },
+            {
+              "name": "Obtener Todas las Categorías",
+              "request": {
+                "auth": {
+                  "type": "basic",
+                  "basic": [
+                    {
+                      "key": "username",
+                      "value": "{{username}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "password",
+                      "value": "{{password}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url_product}}/api/categories",
+                  "host": ["{{base_url_product}}"],
+                  "path": ["api", "categories"]
+                },
+                "description": "Obtener todas las categorías disponibles"
+              },
+              "response": []
+            },
+            {
+              "name": "Obtener Categoría por ID",
+              "request": {
+                "auth": {
+                  "type": "basic",
+                  "basic": [
+                    {
+                      "key": "username",
+                      "value": "{{username}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "password",
+                      "value": "{{password}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url_product}}/api/categories/1",
+                  "host": ["{{base_url_product}}"],
+                  "path": ["api", "categories", "1"]
+                },
+                "description": "Obtener una categoría específica por su ID"
+              },
+              "response": []
+            },
+            {
+              "name": "Actualizar Categoría",
+              "request": {
+                "auth": {
+                  "type": "basic",
+                  "basic": [
+                    {
+                      "key": "username",
+                      "value": "{{username}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "password",
+                      "value": "{{password}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"Electrónicos Actualizados\"\n}"
+                },
+                "url": {
+                  "raw": "{{base_url_product}}/api/categories/1",
+                  "host": ["{{base_url_product}}"],
+                  "path": ["api", "categories", "1"]
+                },
+                "description": "Actualizar una categoría existente"
+              },
+              "response": []
+            }
+          ],
+          "description": "Operaciones CRUD para categorías"
+        },
+        {
+          "name": "Productos",
+          "item": [
+            {
+              "name": "Crear Producto",
+              "request": {
+                "auth": {
+                  "type": "basic",
+                  "basic": [
+                    {
+                      "key": "username",
+                      "value": "{{username}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "password",
+                      "value": "{{password}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"Smartphone Samsung Galaxy S21\",\n    \"price\": 899.99,\n    \"description\": \"Smartphone de última generación con cámara de alta resolución\",\n    \"stock\": 50,\n    \"categoryId\": 1\n}"
+                },
+                "url": {
+                  "raw": "{{base_url_product}}/api/products",
+                  "host": ["{{base_url_product}}"],
+                  "path": ["api", "products"]
+                },
+                "description": "Crear un nuevo producto. Asegúrate de que la categoríaId exista."
+              },
+              "response": []
+            },
+            {
+              "name": "Crear Segundo Producto",
+              "request": {
+                "auth": {
+                  "type": "basic",
+                  "basic": [
+                    {
+                      "key": "username",
+                      "value": "{{username}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "password",
+                      "value": "{{password}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "POST",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"Laptop Dell Inspiron\",\n    \"price\": 1299.99,\n    \"description\": \"Laptop para trabajo y gaming con procesador Intel i7\",\n    \"stock\": 25,\n    \"categoryId\": 1\n}"
+                },
+                "url": {
+                  "raw": "{{base_url_product}}/api/products",
+                  "host": ["{{base_url_product}}"],
+                  "path": ["api", "products"]
+                },
+                "description": "Crear un segundo producto para tener más opciones al crear órdenes"
+              },
+              "response": []
+            },
+            {
+              "name": "Obtener Todos los Productos",
+              "request": {
+                "auth": {
+                  "type": "basic",
+                  "basic": [
+                    {
+                      "key": "username",
+                      "value": "{{username}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "password",
+                      "value": "{{password}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url_product}}/api/products",
+                  "host": ["{{base_url_product}}"],
+                  "path": ["api", "products"]
+                },
+                "description": "Obtener todos los productos disponibles"
+              },
+              "response": []
+            },
+            {
+              "name": "Obtener Producto por ID",
+              "request": {
+                "auth": {
+                  "type": "basic",
+                  "basic": [
+                    {
+                      "key": "username",
+                      "value": "{{username}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "password",
+                      "value": "{{password}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url_product}}/api/products/1",
+                  "host": ["{{base_url_product}}"],
+                  "path": ["api", "products", "1"]
+                },
+                "description": "Obtener un producto específico por su ID"
+              },
+              "response": []
+            },
+            {
+              "name": "Obtener Stock de Producto",
+              "request": {
+                "auth": {
+                  "type": "basic",
+                  "basic": [
+                    {
+                      "key": "username",
+                      "value": "{{username}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "password",
+                      "value": "{{password}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url_product}}/api/products/1/stock",
+                  "host": ["{{base_url_product}}"],
+                  "path": ["api", "products", "1", "stock"]
+                },
+                "description": "Obtener el stock disponible de un producto específico"
+              },
+              "response": []
+            },
+            {
+              "name": "Obtener Precio de Producto",
+              "request": {
+                "auth": {
+                  "type": "basic",
+                  "basic": [
+                    {
+                      "key": "username",
+                      "value": "{{username}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "password",
+                      "value": "{{password}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url_product}}/api/products/1/price",
+                  "host": ["{{base_url_product}}"],
+                  "path": ["api", "products", "1", "price"]
+                },
+                "description": "Obtener el precio de un producto específico"
+              },
+              "response": []
+            },
+            {
+              "name": "Obtener Productos Activos",
+              "request": {
+                "auth": {
+                  "type": "basic",
+                  "basic": [
+                    {
+                      "key": "username",
+                      "value": "{{username}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "password",
+                      "value": "{{password}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "GET",
+                "header": [],
+                "url": {
+                  "raw": "{{base_url_product}}/api/products/true",
+                  "host": ["{{base_url_product}}"],
+                  "path": ["api", "products", "true"]
+                },
+                "description": "Obtener todos los productos con estado activo"
+              },
+              "response": []
+            },
+            {
+              "name": "Actualizar Producto",
+              "request": {
+                "auth": {
+                  "type": "basic",
+                  "basic": [
+                    {
+                      "key": "username",
+                      "value": "{{username}}",
+                      "type": "string"
+                    },
+                    {
+                      "key": "password",
+                      "value": "{{password}}",
+                      "type": "string"
+                    }
+                  ]
+                },
+                "method": "PUT",
+                "header": [
+                  {
+                    "key": "Content-Type",
+                    "value": "application/json"
+                  }
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"name\": \"Smartphone Samsung Galaxy S21 Pro\",\n    \"price\": 999.99,\n    \"description\": \"Smartphone de última generación con cámara de alta resolución - Versión Pro\",\n    \"stock\": 45,\n    \"categoryId\": 1\n}"
+                },
+                "url": {
+                  "raw": "{{base_url_product}}/api/products/1",
+                  "host": ["{{base_url_product}}"],
+                  "path": ["api", "products", "1"]
+                },
+                "description": "Actualizar un producto existente"
+              },
+              "response": []
+            }
+          ],
+          "description": "Operaciones CRUD para productos"
+        }
+      ],
+      "description": "Servicio de Productos - Puerto 8080"
+    },
+    {
+      "name": "3. Servicio de Órdenes",
+      "item": [
+        {
+          "name": "Crear Orden",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{username}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{password}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"items\": [\n        {\n            \"productId\": 1,\n            \"quantity\": 2\n        },\n        {\n            \"productId\": 2,\n            \"quantity\": 1\n        }\n    ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url_orders}}/api/orders",
+              "host": ["{{base_url_orders}}"],
+              "path": ["api", "orders"]
+            },
+            "description": "Crear una nueva orden con múltiples productos. El sistema verificará automáticamente el stock disponible."
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener Todas las Órdenes",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{username}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{password}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url_orders}}/api/orders",
+              "host": ["{{base_url_orders}}"],
+              "path": ["api", "orders"]
+            },
+            "description": "Obtener todas las órdenes disponibles"
+          },
+          "response": []
+        },
+        {
+          "name": "Obtener Orden por ID",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{username}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{password}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url_orders}}/api/orders/1",
+              "host": ["{{base_url_orders}}"],
+              "path": ["api", "orders", "1"]
+            },
+            "description": "Obtener una orden específica por su ID"
+          },
+          "response": []
+        },
+        {
+          "name": "Confirmar Orden (PENDING → CONFIRMED)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{username}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{password}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"status\": \"CONFIRMED\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url_orders}}/api/orders/1/status",
+              "host": ["{{base_url_orders}}"],
+              "path": ["api", "orders", "1", "status"]
+            },
+            "description": "Confirmar una orden. Esto actualizará automáticamente el stock de los productos."
+          },
+          "response": []
+        },
+        {
+          "name": "Completar Orden (CONFIRMED → COMPLETED)",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{username}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{password}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"status\": \"COMPLETED\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url_orders}}/api/orders/1/status",
+              "host": ["{{base_url_orders}}"],
+              "path": ["api", "orders", "1", "status"]
+            },
+            "description": "Marcar una orden como completada (entregada)"
+          },
+          "response": []
+        }
+      ],
+      "description": "Servicio de Órdenes - Puerto 8081"
+    },
+    {
+      "name": "4. Casos de Prueba Avanzados",
+      "item": [
+        {
+          "name": "Crear Orden con Stock Insuficiente",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{username}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{password}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"items\": [\n        {\n            \"productId\": 1,\n            \"quantity\": 1000\n        }\n    ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url_orders}}/api/orders",
+              "host": ["{{base_url_orders}}"],
+              "path": ["api", "orders"]
+            },
+            "description": "Intentar crear una orden con una cantidad mayor al stock disponible para probar el manejo de errores"
+          },
+          "response": []
+        },
+        {
+          "name": "Crear Orden con Producto Inexistente",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{username}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{password}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"items\": [\n        {\n            \"productId\": 999,\n            \"quantity\": 1\n        }\n    ]\n}"
+            },
+            "url": {
+              "raw": "{{base_url_orders}}/api/orders",
+              "host": ["{{base_url_orders}}"],
+              "path": ["api", "orders"]
+            },
+            "description": "Intentar crear una orden con un producto que no existe para probar el manejo de errores"
+          },
+          "response": []
+        },
+        {
+          "name": "Cancelar Orden",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{username}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{password}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"status\": \"CANCELLED\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url_orders}}/api/orders/1/status",
+              "host": ["{{base_url_orders}}"],
+              "path": ["api", "orders", "1", "status"]
+            },
+            "description": "Cancelar una orden. Esto reintegrará el stock de los productos."
+          },
+          "response": []
+        },
+        {
+          "name": "Verificar Stock Después de Orden",
+          "request": {
+            "auth": {
+              "type": "basic",
+              "basic": [
+                {
+                  "key": "username",
+                  "value": "{{username}}",
+                  "type": "string"
+                },
+                {
+                  "key": "password",
+                  "value": "{{password}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url_product}}/api/products/1/stock",
+              "host": ["{{base_url_product}}"],
+              "path": ["api", "products", "1", "stock"]
+            },
+            "description": "Verificar que el stock se actualizó correctamente después de confirmar una orden"
+          },
+          "response": []
+        }
+      ],
+      "description": "Casos de prueba para validar el comportamiento del sistema en situaciones especiales"
+    },
+    {
+      "name": "5. Documentación Swagger",
+      "item": [
+        {
+          "name": "Swagger Productos",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url_product}}/swagger-ui.html",
+              "host": ["{{base_url_product}}"],
+              "path": ["swagger-ui.html"]
+            },
+            "description": "Documentación Swagger del servicio de productos"
+          },
+          "response": []
+        },
+        {
+          "name": "Swagger Órdenes",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{base_url_orders}}/swagger-ui.html",
+              "host": ["{{base_url_orders}}"],
+              "path": ["swagger-ui.html"]
+            },
+            "description": "Documentación Swagger del servicio de órdenes"
+          },
+          "response": []
+        }
+      ],
+      "description": "Enlaces a la documentación Swagger de ambos servicios"
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url_product",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "base_url_orders",
+      "value": "http://localhost:8081",
+      "type": "string"
+    },
+    {
+      "key": "username",
+      "value": "admin",
+      "type": "string"
+    },
+    {
+      "key": "password",
+      "value": "1234",
+      "type": "string"
+    }
+  ]
+}
